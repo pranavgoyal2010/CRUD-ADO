@@ -50,6 +50,17 @@ class Runner
 
                     break;
 
+                case 2:
+                    Console.WriteLine("Enter ID of Employee to delete");
+                    int EmployeeID = int.Parse(Console.ReadLine());
+
+                    if (DeleteData(EmployeeID, connectionString))
+                        Console.WriteLine("Deletion done successfully.");
+                    else
+                        Console.WriteLine("Deletion failed");
+
+                    break;
+
                 default:
                     state = false;
                     break;
@@ -116,5 +127,34 @@ class Runner
         else
             return false;
 
+    }
+
+    static bool DeleteData(int EmployeeID, string connectionString)
+    {
+        SqlConnection conn = new SqlConnection(connectionString);
+        string query = "DELETE FROM Employee WHERE EmployeeID=@id";
+        int rowsDeleted = 0;
+        try
+        {
+            using (conn)
+            {
+                SqlCommand comm = new SqlCommand(query, conn);
+
+                conn.Open();
+
+                comm.Parameters.AddWithValue("@id", EmployeeID);
+
+                rowsDeleted = comm.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        if (rowsDeleted > 0)
+            return true;
+        else
+            return false;
     }
 }
