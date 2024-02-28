@@ -12,6 +12,6 @@ class Employee
 
     public int EmployeeSalary { get; set; }
 
-    public int EmployeeCity { get; set; }
+    public string EmployeeCity { get; set; }
 
 }
