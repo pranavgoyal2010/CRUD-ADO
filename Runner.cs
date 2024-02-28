@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Data.SqlClient;
+﻿using System.Data.SqlClient;
 
 namespace EmployeeADO;
 
@@ -9,8 +8,10 @@ class Runner
     {
         string connectionString = "Data Source=DESKTOP-9TNLIB5\\SQLEXPRESS;Initial Catalog=ado_db;Integrated Security=true;";
 
+        //SqlConnection conn = new SqlConnection(connectionString);
         //establishing connection
-        SqlConnection conn = Connection(connectionString);
+
+        //Connection(conn);
 
         bool state = true;
         while (state)
@@ -42,19 +43,28 @@ class Runner
                     Console.WriteLine("Enter city");
                     employee.EmployeeCity = Console.ReadLine();
 
-                    InsertData(employee);
+                    if (InsertData(employee, connectionString))
+                        Console.WriteLine("Insertion done successfully.");
+                    else
+                        Console.WriteLine("Insertion failed");
+
+                    break;
+
+                default:
+                    state = false;
+                    break;
             }
 
         }
     }
 
-    static SqlConnection Connection(string connectionString)
+    /*static void Connection(SqlConnection conn)
     {
-        SqlConnection conn = null;
+        bool state = false;
 
         try
         {
-            using (conn = new SqlConnection(connectionString))
+            using (conn)
             {
                 conn.Open();
 
@@ -62,6 +72,8 @@ class Runner
                 {
                     Console.WriteLine("Connection with database established");
                 }
+
+                state = true;
             }
         }
         catch (Exception ex)
@@ -69,11 +81,12 @@ class Runner
             Console.WriteLine(ex.Message);
         }
 
-        return conn;
-    }
+    }*/
 
-    static bool InsertData(Employee employee, SqlConnection conn)
+    static bool InsertData(Employee employee, string connectionString)
     {
+        SqlConnection conn = new SqlConnection(connectionString);
+        int rowsInserted = 0;
         string query = "INSERT INTO Employee VALUES (@name, @gender, @age, @salary, @city)";
         try
         {
@@ -86,6 +99,11 @@ class Runner
                 comm.Parameters.AddWithValue("@age", employee.EmployeeAge);
                 comm.Parameters.AddWithValue("@salary", employee.EmployeeSalary);
                 comm.Parameters.AddWithValue("@city", employee.EmployeeCity);
+
+                conn.Open();
+
+                rowsInserted = comm.ExecuteNonQuery();
+
             }
         }
         catch (Exception ex)
@@ -93,6 +111,10 @@ class Runner
             Console.WriteLine(ex.Message);
         }
 
+        if (rowsInserted > 0)
+            return true;
+        else
+            return false;
 
     }
 }
