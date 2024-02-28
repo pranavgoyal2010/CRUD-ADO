@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EmployeeADO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94a6ea01024ac666b43177d5820d86b3892d1900")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02e8f2cd7b6641dddd78affa02deeafae9b86eef")]
 [assembly: System.Reflection.AssemblyProductAttribute("EmployeeADO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EmployeeADO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

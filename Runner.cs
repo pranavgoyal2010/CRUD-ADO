@@ -8,10 +8,6 @@ class Runner
     {
         string connectionString = "Data Source=DESKTOP-9TNLIB5\\SQLEXPRESS;Initial Catalog=ado_db;Integrated Security=true;";
 
-        //SqlConnection conn = new SqlConnection(connectionString);
-        //establishing connection
-
-        //Connection(conn);
 
         bool state = true;
         while (state)
@@ -170,7 +166,7 @@ class Runner
     {
         SqlConnection conn = new SqlConnection(connectionString);
 
-        string query = "UPDATE Employee SET Name = @name, Age = @age, Salary = @salary, City = @city WHERE EmployeeID = @id";
+        string query = "UPDATE Employee SET Name = @name, Gender = @gender, Age = @age, Salary = @salary, City = @city WHERE EmployeeID = @id";
 
         int rowsUpdated = 0;
 
