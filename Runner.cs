@@ -61,6 +61,34 @@ class Runner
 
                     break;
 
+                case 3:
+                    Console.WriteLine("Enter ID of Employee to update");
+                    EmployeeID = int.Parse(Console.ReadLine());
+
+                    employee = new Employee();
+
+                    Console.WriteLine("Enter name");
+                    employee.EmployeeName = Console.ReadLine();
+
+                    Console.WriteLine("Enter gender");
+                    employee.EmployeeGender = Console.ReadLine();
+
+                    Console.WriteLine("Enter age");
+                    employee.EmployeeAge = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Enter salary");
+                    employee.EmployeeSalary = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Enter city");
+                    employee.EmployeeCity = Console.ReadLine();
+
+                    if (UpdateData(EmployeeID, employee, connectionString))
+                        Console.WriteLine("Updation done successfully.");
+                    else
+                        Console.WriteLine("Updation failed");
+
+                    break;
+
                 default:
                     state = false;
                     break;
@@ -153,6 +181,44 @@ class Runner
         }
 
         if (rowsDeleted > 0)
+            return true;
+        else
+            return false;
+    }
+
+    static bool UpdateData(int EmployeeID, Employee employee, string connectionString)
+    {
+        SqlConnection conn = new SqlConnection(connectionString);
+
+        string query = "UPDATE Employee SET Name = @name, Age = @age, Salary = @salary, City = @city WHERE EmployeeID = @id";
+
+        int rowsUpdated = 0;
+
+        try
+        {
+            using (conn)
+            {
+                SqlCommand comm = new SqlCommand(query, conn);
+
+                comm.Parameters.AddWithValue("@id", EmployeeID);
+                comm.Parameters.AddWithValue("@name", employee.EmployeeName);
+                comm.Parameters.AddWithValue("@gender", employee.EmployeeGender);
+                comm.Parameters.AddWithValue("@age", employee.EmployeeAge);
+                comm.Parameters.AddWithValue("@salary", employee.EmployeeSalary);
+                comm.Parameters.AddWithValue("@city", employee.EmployeeCity);
+
+                conn.Open();
+
+                rowsUpdated = comm.ExecuteNonQuery();
+
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        if (rowsUpdated > 0)
             return true;
         else
             return false;
