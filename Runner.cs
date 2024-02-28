@@ -89,6 +89,10 @@ class Runner
 
                     break;
 
+                case 4:
+                    DisplayData(connectionString);
+                    break;
+
                 default:
                     state = false;
                     break;
@@ -97,30 +101,6 @@ class Runner
         }
     }
 
-    /*static void Connection(SqlConnection conn)
-    {
-        bool state = false;
-
-        try
-        {
-            using (conn)
-            {
-                conn.Open();
-
-                if (conn.State == ConnectionState.Open)
-                {
-                    Console.WriteLine("Connection with database established");
-                }
-
-                state = true;
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-
-    }*/
 
     static bool InsertData(Employee employee, string connectionString)
     {
@@ -222,5 +202,36 @@ class Runner
             return true;
         else
             return false;
+    }
+
+    static void DisplayData(string connectionString)
+    {
+        SqlConnection conn = new SqlConnection(connectionString);
+
+        string query = "SELECT * FROM Employee";
+
+        try
+        {
+            using (conn)
+            {
+                SqlCommand comm = new SqlCommand(query, conn);
+
+                conn.Open();
+
+                SqlDataReader dr = comm.ExecuteReader();
+
+                Console.WriteLine("EmployeeID\tName\tGender\tAge\tSalary\tCity");
+                while (dr.Read())
+                {
+                    Console.WriteLine(dr["EmployeeID"] + "\t\t" + dr["Name"] + "\t" + dr["Gender"] + "\t" + dr["Age"]
+                        + "\t" + dr["Salary"] + "\t" + dr["City"]);
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }
